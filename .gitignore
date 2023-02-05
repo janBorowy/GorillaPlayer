@@ -1,5 +1,7 @@
 .*
 bot.properties
+build
+gradle
 client_secrets.json
 gradlew
 gradlew.bat
