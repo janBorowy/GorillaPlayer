@@ -33,12 +33,20 @@ object PlayerManager {
         }
     }
 
-    fun loadAndPlay(channel: MessageChannelUnion, trackURL: String){
+    fun loadAndPlay(channel: MessageChannelUnion, trackURL: String) {
         val guild = channel.asGuildMessageChannel().guild
         val musicManager = getMusicManager(guild)
 
         QueueManager.add(guild, YoutubeApi.getVideo(trackURL))
 
         audioPlayerManager.loadItemOrdered(musicManager, trackURL, AudioLoadResultHandlerImpl(musicManager, channel))
+    }
+
+    fun skipTrack(guild: Guild) {
+        val musicManager = getMusicManager(guild)
+
+        QueueManager.poll(guild)
+
+        musicManager.scheduler.skip()
     }
 }

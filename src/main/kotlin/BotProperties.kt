@@ -23,7 +23,7 @@ object BotProperties {
 
     val token = properties.getProperty("token")
     val prefix = properties.getProperty("prefix")
-    val id = properties.getProperty("id")
+    val id = properties.getProperty("bot_id")
     val apiToken = properties.getProperty("api_token")
     val clientId = properties.getProperty("client_id")
 

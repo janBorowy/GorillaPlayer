@@ -14,6 +14,15 @@ object MessageHelper {
         sendMessage(channel, message)
     }
 
+    fun sendVideoAddedMessage(channel: MessageChannel, video: Video) {
+        val embed = buildVideoAddedEmbed(video)
+        val message = MessageCreateBuilder()
+            .addEmbeds(embed)
+            .build()
+
+        sendMessage(channel, message)
+    }
+
     fun sendVideoInfoMessage(channel: MessageChannel, video: Video) {
         val embed = buildVideoEmbed(video)
         val message = MessageCreateBuilder()

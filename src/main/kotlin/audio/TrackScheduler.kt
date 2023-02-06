@@ -21,16 +21,23 @@ class TrackScheduler(
         }
     }
 
+    fun skip() {
+        player.stopTrack()
+    }
+
     private fun playNextTrack() {
         player.startTrack(queue.poll(), false)
     }
 
     override fun onTrackEnd(player: AudioPlayer?, track: AudioTrack?, endReason: AudioTrackEndReason?) {
 
-        if(endReason!!.name == "FINISHED") {
+        if(endReason!!.name == "FINISHED" || endReason.name == "STOPPED") {
             QueueManager.poll(guild)
             playNextTrack()
+            return
         }
+
+        println("[ERROR] finished with endReason: ${endReason.toString()}")
 
     }
 
