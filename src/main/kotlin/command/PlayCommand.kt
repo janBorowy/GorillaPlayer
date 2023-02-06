@@ -1,5 +1,6 @@
 package command
 
+import MessageHelper
 import audio.PlayerManager
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import org.apache.http.client.utils.URLEncodedUtils
@@ -16,6 +17,13 @@ object PlayCommand : BotCommand {
         val args = event.message.contentDisplay.split(' ')
         if(args.size < 2) {
             MessageHelper.sendGenericMessage(event.channel, "Please input video link")
+        }
+
+        val joinChannelStatus = CommandUtils.attemptToJoinAChannel(event)
+        if(joinChannelStatus != CommandUtils.JOIN_STATUS.SUCCESS &&
+            event.member?.voiceState?.channel?.id != PlayerManager.getMusicManager(event.guild).botChannel()?.id) {
+            MessageHelper.sendJoinStatusMessage(event.channel, joinChannelStatus)
+            return
         }
 
         // TODO: implement invalid url

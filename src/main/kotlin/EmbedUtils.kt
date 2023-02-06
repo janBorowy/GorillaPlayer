@@ -18,13 +18,13 @@ fun buildVideoEmbed(video: Video) : MessageEmbed {
         .build()
 }
 
-private fun parseDurationString(str: String) : String{
+fun parseDurationString(str: String) : String{
     val withoutPT = str.substring(2)
     val vals = withoutPT.split("H", "M", "S")
     return when (vals.size) {
         2 -> "0:${vals[1]}"
-        3 -> "${vals[0]}:${vals[1]}"
-        4 -> "${vals[0]}:${vals[1]}:${vals[2]}"
+        3 -> "${if(vals[0].toInt() < 10) "0" else ""}${vals[0]}:${if(vals[1].toInt() < 10) "0" else ""}${vals[1]}"
+        4 -> "${vals[0]}:${if(vals[0].toInt() < 10) "0" else ""}${vals[1]}:${if(vals[2].toInt() < 10) "0" else ""}${vals[2]}"
         else -> ""
     }
 }

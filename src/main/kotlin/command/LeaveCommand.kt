@@ -1,6 +1,8 @@
 package command
 
-import audio.BotAudio
+import MessageHelper
+import audio.GuildMusicManager
+import audio.PlayerManager
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
 object LeaveCommand : BotCommand{
@@ -11,17 +13,20 @@ object LeaveCommand : BotCommand{
         // 1. Fail if bot is idle
         // 2. Fail if sender is not on your channel
 
-        if(BotAudio.state == BotAudio.STATE.IDLE) {
+        val manager = PlayerManager.getMusicManager(event.guild)
+        if(manager.state == GuildMusicManager.STATE.IDLE) {
             MessageHelper.sendGenericMessage(event.channel, "I'm not on any channel")
             return
         }
 
-        val channel = BotAudio.botChannel(event.guild)
+        val channel = PlayerManager.getMusicManager(event.guild).botChannel()
         if(event.member?.voiceState?.channel == null || event.member?.voiceState?.channel?.id != channel?.id) {
             MessageHelper.sendGenericMessage(event.channel, "You're not on my channel")
             return
         }
 
-        BotAudio.leaveChannel(event.guild)
+        // TODO: clear queue
+        MessageHelper.sendGenericMessage(event.channel, "Bye")
+        manager.leaveChannel()
     }
 }

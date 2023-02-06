@@ -21,12 +21,13 @@ class AudioPlayerSendHandler(
         return player.provide(frame)
     }
 
-    override fun provide20MsAudio(): ByteBuffer? {
+    override fun provide20MsAudio(): ByteBuffer {
         val temp = (buffer as Buffer).flip()
         return temp as ByteBuffer
     }
 
     override fun isOpus(): Boolean {
+        // TODO: check if is opus by using youtube api
         return true
     }
 }

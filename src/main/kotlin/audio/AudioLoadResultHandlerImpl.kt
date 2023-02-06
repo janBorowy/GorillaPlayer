@@ -1,5 +1,6 @@
 package audio
 
+import MessageHelper
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
@@ -15,14 +16,16 @@ class AudioLoadResultHandlerImpl(
     }
 
     override fun playlistLoaded(playlist: AudioPlaylist?) {
-        TODO("Not yet implemented")
+        for(track in playlist!!.tracks) {
+            manager.scheduler.queue(track)
+        }
     }
 
     override fun noMatches() {
-        TODO("Not yet implemented")
+        MessageHelper.sendGenericMessage(channel, "No matches found")
     }
 
     override fun loadFailed(exception: FriendlyException?) {
-        TODO("Not yet implemented")
+        MessageHelper.sendGenericMessage(channel, "Unknown error of ${exception!!.severity.toString()} severity")
     }
 }
