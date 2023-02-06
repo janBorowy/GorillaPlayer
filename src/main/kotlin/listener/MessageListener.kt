@@ -28,7 +28,7 @@ object MessageListener : ListenerAdapter() {
             val args = content.split(' ')
             val command = args[0].substring(1)
             if( command in ServerCommandPalette ) {
-                ServerCommandPalette[command]!!(event)
+                ServerCommandPalette[command]!!.onCommand(event)
             }
         }
     }
