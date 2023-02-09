@@ -19,13 +19,26 @@ object YoutubeApi {
         service = getService()
     }
 
-    fun getVideo(videoId: String): VideoData {
-        val request = service.videos().list("snippet,contentDetails,statistics")
+    fun getVideoById(videoId: String): VideoData {
+        val request = service.videos().list("snippet,contentDetails")
         val response = request.setKey(BotProperties.apiToken).setId(videoId).execute()
         if (response.items.size == 0) {
             throw VideoIdException("Video with id $videoId doesn't exist")
         }
         return YoutubeModel.buildVideoData(response.items[0])
+    }
+
+    fun searchVideo(title: String, searchSize: Long): List<VideoData> {
+        val request = service.search().list("snippet")
+        val response = request.setKey(BotProperties.apiToken)
+            .setMaxResults(searchSize)
+            .setQ(title)
+            .execute()
+
+        val results = response.items
+        val videoResults = response.items.filter { it.id.kind == "youtube#video" }
+
+        return videoResults.map { getVideoById(it.id.videoId) }
     }
 
     private fun getService(): YouTube {

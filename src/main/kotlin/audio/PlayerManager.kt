@@ -5,11 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion
-import org.apache.http.client.utils.URLEncodedUtils
-import youtubeApi.VideoIdException
 import youtubeApi.YoutubeApi
-import java.net.URI
-import java.nio.charset.Charset
 
 object PlayerManager {
 
@@ -37,7 +33,7 @@ object PlayerManager {
         val guild = channel.asGuildMessageChannel().guild
         val musicManager = getMusicManager(guild)
 
-        QueueManager.add(guild, YoutubeApi.getVideo(trackURL))
+        QueueManager.add(guild, YoutubeApi.getVideoById(trackURL))
 
         audioPlayerManager.loadItemOrdered(musicManager, trackURL, AudioLoadResultHandlerImpl(musicManager, channel))
     }

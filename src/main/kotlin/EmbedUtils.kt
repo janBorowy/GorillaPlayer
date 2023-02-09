@@ -56,7 +56,8 @@ fun Duration.doubleDot(): String {
     val secondsInStr = seconds - minutes * 60
     val minutesInStr = minutes - hours * 60
 
-    return String.format("${if(hours.toInt() != 0) "%d:" else ""}%02d:%02d", hours, minutesInStr, secondsInStr)
+    return if (hours.toInt() != 0) String.format("%d:%02d:%02d", hours, minutesInStr, secondsInStr)
+        else String.format("%02d:%02d", minutesInStr, secondsInStr)
 }
 
 fun Duration?.doubleDotOrNull(): String =

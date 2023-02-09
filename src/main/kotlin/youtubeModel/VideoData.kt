@@ -4,6 +4,7 @@ import com.google.api.services.youtube.model.Video
 import java.time.Duration
 
 data class VideoData(
+    val id: String,
     val title: String? = null,
     val channel: String? = null,
     val description: String? = null,
@@ -14,13 +15,14 @@ data class VideoData(
 object YoutubeModel {
 
     fun buildVideoData(video: Video): VideoData {
+        val id = video.id
         val title = video.snippet?.title
         val channel = video.snippet?.channelTitle
         val description = video.snippet?.description
         val thumbnailUrl = video.snippet?.thumbnails?.standard?.url
         val duration = Duration.parse(video.contentDetails?.duration ?: "PT0S")
 
-        return VideoData(title, channel, description, thumbnailUrl, duration)
+        return VideoData(id, title, channel, description, thumbnailUrl, duration)
     }
 
 }
