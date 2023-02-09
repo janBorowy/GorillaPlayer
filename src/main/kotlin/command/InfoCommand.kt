@@ -24,7 +24,7 @@ object InfoCommand : BotCommand{
             if( param.name == "v"){
                 try {
                     val video = YoutubeApi.getVideo(param.value)
-                    MessageHelper.sendVideoInfoMessage(event.channel, video)
+                    MessageHelper.sendVideoInfoMessageEmbed(event.channel, video)
                 } catch(e: VideoIdException) {
                     MessageHelper.sendGenericMessage(event.channel, "No video associated with given link")
                 }

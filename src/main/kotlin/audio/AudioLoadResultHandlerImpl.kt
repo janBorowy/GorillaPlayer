@@ -26,6 +26,6 @@ class AudioLoadResultHandlerImpl(
     }
 
     override fun loadFailed(exception: FriendlyException?) {
-        MessageHelper.sendGenericMessage(channel, "Unknown error of ${exception!!.severity.toString()} severity")
+        MessageHelper.sendGenericMessage(channel, "Unknown error of ${exception?.severity.toString() ?: "UNKNOWN"} severity")
     }
 }

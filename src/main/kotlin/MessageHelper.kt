@@ -1,36 +1,27 @@
-import com.google.api.services.youtube.model.Video
 import command.CommandUtils
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
 import net.dv8tion.jda.api.utils.messages.MessageCreateData
+import youtubeModel.VideoData
 
 object MessageHelper {
 
     fun sendGenericMessage(channel: MessageChannel, content: String) {
-        val message = MessageCreateBuilder()
-            .addContent(content)
-            .build()
+        val message = with(MessageCreateBuilder()) {
+            addContent(content)
+        }.build()
         sendMessage(channel, message)
     }
 
-    fun sendVideoAddedMessage(channel: MessageChannel, video: Video) {
-        val embed = buildVideoAddedEmbed(video)
-        val message = MessageCreateBuilder()
-            .addEmbeds(embed)
-            .build()
+    fun sendVideoAddedMessage(channel: MessageChannel, video: VideoData) =
+        sendMessageEmbed(channel, buildVideoAddedEmbed(video))
 
-        sendMessage(channel, message)
-    }
+    fun sendVideoInfoMessageEmbed(channel: MessageChannel, video: VideoData) =
+        sendMessageEmbed(channel, buildVideoInfoEmbed(video))
 
-    fun sendVideoInfoMessage(channel: MessageChannel, video: Video) {
-        val embed = buildVideoEmbed(video)
-        val message = MessageCreateBuilder()
-            .addEmbeds(embed)
-            .build()
-
-        sendMessage(channel, message)
-    }
+    fun sendQueueInfoMessage(channel: MessageChannel, songs: List<VideoData>) =
+        sendMessageEmbed(channel, buildQueueEmbed(songs))
 
     fun sendJoinStatusMessage(channel: MessageChannel, status: CommandUtils.JOIN_STATUS) {
         val message = when (status) {
@@ -45,5 +36,13 @@ object MessageHelper {
 
     private fun sendMessage(channel: MessageChannel, message: MessageCreateData) =
         channel.sendMessage(message).queue()
+
+    private fun sendMessageEmbed(channel: MessageChannel, embed: MessageEmbed) {
+        val message = with(MessageCreateBuilder()) {
+            addEmbeds(embed)
+        }.build()
+
+        sendMessage(channel, message)
+    }
 
 }

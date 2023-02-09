@@ -5,7 +5,8 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
-import com.google.api.services.youtube.model.Video
+import youtubeModel.VideoData
+import youtubeModel.YoutubeModel
 
 object YoutubeApi {
 
@@ -18,13 +19,13 @@ object YoutubeApi {
         service = getService()
     }
 
-    fun getVideo(videoId: String) : Video {
+    fun getVideo(videoId: String): VideoData {
         val request = service.videos().list("snippet,contentDetails,statistics")
         val response = request.setKey(BotProperties.apiToken).setId(videoId).execute()
-        if(response.items.size == 0) {
+        if (response.items.size == 0) {
             throw VideoIdException("Video with id $videoId doesn't exist")
         }
-        return response.items[0]
+        return YoutubeModel.buildVideoData(response.items[0])
     }
 
     private fun getService(): YouTube {

@@ -5,7 +5,6 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import net.dv8tion.jda.api.entities.Guild
-import java.util.Queue
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -21,8 +20,15 @@ class TrackScheduler(
         }
     }
 
-    fun skip() {
+    fun skip() =
         player.stopTrack()
+
+    fun pause() {
+        player.isPaused = true
+    }
+
+    fun resume() {
+        player.isPaused = false
     }
 
     private fun playNextTrack() {
@@ -31,14 +37,29 @@ class TrackScheduler(
 
     override fun onTrackEnd(player: AudioPlayer?, track: AudioTrack?, endReason: AudioTrackEndReason?) {
 
-        if(endReason!!.name == "FINISHED" || endReason.name == "STOPPED") {
-            QueueManager.poll(guild)
-            playNextTrack()
-            return
+        QueueManager.poll(guild)
+        when(endReason.toString()) {
+            "FINISHED", "STOPPED" -> {
+                playNextTrack()
+            }
+            "LOAD_FAILED" -> handleLoadFailed()
+            "REPLACED" -> handleReplaced()
+            "CLEANUP" -> handleCleanup()
         }
 
-        println("[ERROR] finished with endReason: ${endReason.toString()}")
+    }
 
+    private fun handleCleanup() {
+        TODO("Not yet implemented")
+    }
+
+    private fun handleReplaced() {
+        TODO("Not yet implemented")
+    }
+
+    private fun handleLoadFailed() {
+        playNextTrack()
+        println("[ERROR][LOAD_FAILED] Guild@${guild.id}")
     }
 
 }

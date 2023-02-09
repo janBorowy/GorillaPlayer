@@ -27,10 +27,7 @@ object CommandUtils {
         }
 
         // 2
-        val channel = event.member?.voiceState?.channel
-        if (channel == null) {
-            return JOIN_STATUS.MEMBER_NOT_ON_CHANNEL
-        }
+        val channel = event.member?.voiceState?.channel ?: return JOIN_STATUS.MEMBER_NOT_ON_CHANNEL
 
         // 3
         try {

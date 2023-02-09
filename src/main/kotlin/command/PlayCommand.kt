@@ -34,7 +34,7 @@ object PlayCommand : BotCommand {
                 try {
                     PlayerManager.loadAndPlay(event.channel, param.value)
                     val video = YoutubeApi.getVideo(param.value)
-                    MessageHelper.sendVideoInfoMessage(event.channel, video)
+                    MessageHelper.sendVideoAddedMessage(event.channel, video)
                 } catch(e: VideoIdException) {
                     MessageHelper.sendGenericMessage(event.channel, "No video associated with given link")
                 }

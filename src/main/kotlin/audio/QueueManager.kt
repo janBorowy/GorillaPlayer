@@ -1,7 +1,7 @@
 package audio
 
-import com.google.api.services.youtube.model.Video
 import net.dv8tion.jda.api.entities.Guild
+import youtubeModel.VideoData
 
 object QueueManager {
 
@@ -15,22 +15,22 @@ object QueueManager {
         }
     }
 
-    fun add(guild: Guild, video: Video) {
+    fun add(guild: Guild, snippet: VideoData) {
         val manager = getQueueManager(guild)
-        manager.add(video)
+        manager.add(snippet)
     }
 
-    fun poll(guild: Guild): Video? {
+    fun poll(guild: Guild): VideoData? {
         val manager = getQueueManager(guild)
         return manager.poll()
     }
 
-    fun peek(guild: Guild): Video? {
+    fun peek(guild: Guild): VideoData? {
         val manager = getQueueManager(guild)
         return manager.peek()
     }
 
-    fun toArray(guild: Guild): List<Video> {
+    fun toArray(guild: Guild): List<VideoData> {
         val manager = getQueueManager(guild)
         return manager.toList()
     }

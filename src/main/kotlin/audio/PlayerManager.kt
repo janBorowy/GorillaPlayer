@@ -49,4 +49,16 @@ object PlayerManager {
 
         musicManager.scheduler.skip()
     }
+
+    fun pause(guild: Guild) {
+        val musicManager = getMusicManager(guild)
+
+        musicManager.scheduler.pause()
+    }
+
+    fun resume(guild: Guild) {
+        val musicManager = getMusicManager(guild)
+
+        musicManager.scheduler.resume()
+    }
 }

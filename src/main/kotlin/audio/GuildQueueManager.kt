@@ -1,11 +1,10 @@
 package audio
 
-import com.google.api.services.youtube.model.Video
+import com.google.api.services.youtube.model.VideoSnippet
 import net.dv8tion.jda.api.entities.Guild
-import java.util.PriorityQueue
-import java.util.concurrent.ArrayBlockingQueue
+import youtubeModel.VideoData
 import java.util.concurrent.LinkedBlockingQueue
 
 class GuildQueueManager(
     val guild: Guild
-) : LinkedBlockingQueue<Video>()
+) : LinkedBlockingQueue<VideoData>()
