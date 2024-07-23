@@ -1,4 +1,3 @@
-import command.BlackmodeCommand
 import command.BotCommand
 import command.InfoCommand
 import command.JoinCommand
@@ -17,7 +16,6 @@ object ServerCommandPalette : HashMap<String, BotCommand>() {
         register(LeaveCommand)
         register(PlayCommand)
         register(ShowQueueCommand)
-        register(BlackmodeCommand)
         register(SkipCommand)
         register(PauseCommand)
         register(ResumeCommand)
